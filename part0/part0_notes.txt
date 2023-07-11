@@ -1,0 +1,20 @@
+Part 0 Notes
+=============
+- the first rule of web development is to always have the developer console open.
+-  the most important tab is the Console tab. That is where all the printed statements go.
+
+
+HTTP GET
+--------
+- HTTP = Hypertext transfer protocol
+- The Network tab in the developer console shows how the browser and server communicate.
+- 200 : OK
+- event handler functions are called callback functions.
+- the browser chooses when to invoke the function, depending on whether the event has occured.
+- DOM = Document Object Model is an Application Programming Interface (API) that enables programmatic modification of the elemtn trees corresponding to web pages.
+
+CSS (Cascading Style Sheet)
+---------------------------
+- A class selector definition starts with a period and contains the name of the class.
+- Classes are attributes, which can be added to HTML elements.
+- Javascript code uses id attributes to find the element.

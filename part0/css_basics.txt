@@ -1,0 +1,37 @@
+CSS Basics
+============
+- CSS = Cascading Style Sheets is the code that styles web content.
+- Like HTML, CSS is not a programming language. It's not a markup language either. CSS is a style sheet language. CSS is what you use to selectively style HTML elements.
+- You use selectors to modify how elements look in the browser.
+- Each selector has properties that can be applied to it.
+- Selector: This is the HTML element name at the start of the ruleset. It defines the element(s) to be styled (in this example, <p> elements). To style a different element, change the selector.
+- Declaration: This is a single rule like {color: red};. It specifies which of the element's properties you want to style.
+- Properties: These are ways in which you can style an HTML element. (In this example, color is a property of the <p> elements.) In CSS, you choose which properties you want to affect in the rule.
+- Property Value: To the right of the property—after the colon—there is the property value. This chooses one out of many possible appearances for a given property. (For example, there are many color values in addition to red.)
+
+- You can also select multiple elements and apply a single ruleset to all of them. Separate multiple selectors by commas.
+
+Different Types of Selectors
+----------------------------
+
+1. Element selector (sometimes called a tag or type selector): Selects all HTML elements of the specified type. [Example: p selects all <p></p> tags]
+
+2. ID Selector: Selects the element on the page with the specified ID. On a given HTML page, each id value should be unique. [Example: #my-id selects <p id="my-id"> or <a id="my-id">]
+
+3. Class Selector: Selects the element(s) on the page with the specified class. Multiple instances of the same class can appear on a page. [Example: .my-class selects <p class="my-class"> and <a class="my-class">
+
+4. Attribute selector: Selects the element(s) on the page with the specified attribute. [Example: img[src] selects <img src="myimage.png"> but not <img>]
+
+5. Pseudo-class selector: Selects the specified element(s), but only when in the specified state (For example, when a cursor hovers over a link). [Example: a:hover selects <a>, but only when the mouse pointer is hovering over the link.
+
+- There are many more selectors. Visit https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors to find more.
+
+
+CSS: All about boxes
+--------------------
+- Something you'll notice about writing CSS: a lot of it is about boxes. This includes setting size, color, and position. Most HTML elements on your page can be thought of as boxes sitting on top of other boxes.
+- Padding: the space around the content. In the example below, it is the space around the paragraph text.
+- Border: the solid line that is just outside the padding.
+- Margin: the space around the outside of the border.
+
+
