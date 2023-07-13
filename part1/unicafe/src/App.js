@@ -5,12 +5,19 @@ const Header = ({headerText}) => <h1>{headerText}</h1>;
 const Button = ({text, handleClick}) => <button onClick={handleClick}>{text}</button>;
 
 const Statistics = ({goodClicks, neutralClicks, badClicks}) => {
+  const total = goodClicks + neutralClicks + badClicks;
+  const average = (goodClicks - badClicks) / total;
+  const positivePercentage = goodClicks / total;
+
   return (
     <>
       <h2>Statistics</h2>
       <p>Good {goodClicks}</p>
       <p>Neutral {neutralClicks}</p>
       <p>Bad {badClicks}</p>
+      <p>All {total}</p>
+      <p>Average {average}</p>
+      <p>Positive {positivePercentage} %</p>
     </>
   )
 }
