@@ -29,4 +29,12 @@ const App = () => {
     </div>
   );
 }
-export default App;
+
+// This section contains notes from the Part 1, Section C (Component State, Event Handlers).
+const Counter = (props) => {
+  const {counter} = props;
+  return (
+    <div>{counter}</div>
+  )
+}
+export default Counter;
