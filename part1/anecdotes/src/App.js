@@ -6,6 +6,12 @@ const Button = ({text, handleClick}) => {
   )
 };
 
+const VoteCountLine = ({voteCount}) => {
+  return (
+    <p>This anecdote has {voteCount} votes.</p>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -20,6 +26,7 @@ const App = () => {
 
   
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(new Int32Array(anecdotes.length));
 
   const randomClick = () => {
     const randomNum = (Math.floor(Math.random() * 100)) % anecdotes.length;
@@ -27,11 +34,20 @@ const App = () => {
     setSelected(randomNum);
   }
 
+  const voteClick = () => {
+    console.log('Anecdote ' + selected + ' now has ' + (votes[selected] + 1) + ' votes.');
+    const copyVotes = {...votes};
+    copyVotes[selected]++;
+    setVotes(copyVotes);
+  }
+
   return (
     <div>
       {anecdotes[selected]}
       <br/>
+      <VoteCountLine voteCount={votes[selected]}/>
       <Button text='Next Anecdote' handleClick={randomClick}/>
+      <Button text='Vote' handleClick={voteClick}/>
     </div>
   )
 };
