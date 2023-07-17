@@ -4,10 +4,15 @@ import { useState } from 'react';
 const App = () => {
   // Set the states.
   const [persons, setPersons] = useState([
-    {name: 'Arto Hellas'}
+    {
+      name: 'Arto Hellas',
+      number: '324-374-0923'
+    }
   ]);
 
   const [newName, setNewName] = useState('');
+
+  const [newNumber, setNewNumber] = useState('');
 
   /**
    * Checks to see if a name is already in the persons array.
@@ -31,24 +36,31 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    // Check if the name is already in the array.
-    if (checkIfAdded(newName))
+    // Check if the name is already in the array
+    // or if the name is empty.
+    if (checkIfAdded(newName) || newName.length === 0)
     {
       // If so, do not add it. Simply return.
       return;
     }
     
-    // If it is a new name, create a new person object and update the states.
+    // If it is a valid new name, create a new person object and update the states.
     const newPerson = {
-      name: newName
+      name: newName,
+      number: newNumber
     };
     setPersons(persons.concat(newPerson));
     console.log(persons);
     setNewName('');
+    setNewNumber('');
   }
 
   const handlePersonChange = (event) => {
     setNewName(event.target.value);
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value);
   }
 
   return (
@@ -59,12 +71,16 @@ const App = () => {
         name: <input value={newName} onChange={handlePersonChange}/>
       </div>
       <div>
+        number: <input value={newNumber} onChange={handleNumberChange}/>
+      </div>
+      <div>
         <button type='submit'>add</button>
       </div>
     </form>
     <h2>Numbers</h2>
     <div>
-      {persons.map(person => <p key={person.name}>{person.name}</p>)}
+      {persons.map(person =>
+      <p key={person.name}>{person.name}: {person.number}</p>)}
     </div>
   </div>
   )
