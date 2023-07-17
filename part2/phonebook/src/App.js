@@ -1,6 +1,10 @@
 
 import { useState } from 'react';
 
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
+
 const App = () => {
   // Set the states.
   const [persons, setPersons] = useState([
@@ -51,6 +55,7 @@ const App = () => {
     return false;
   }
 
+  // Event Handlers
   const addPerson = (event) => {
     event.preventDefault();
 
@@ -85,37 +90,21 @@ const App = () => {
     setFilter(event.target.value);
   }
 
-  const personsToShow = (filter === '') ? persons : persons.filter(person => person.name.search(new RegExp(filter, "i")) !== -1);
-  console.log(filter);
-  console.log(personsToShow);
-
   return (
   <div>
     <h2>Phonebook</h2>
-    <div>
-      filter shown with: <input value={filter} onChange={handleFilterChange}/>
-    </div>
 
-    <h2>Add a new contact</h2>
-    <form onSubmit={addPerson}>
-      <div>
-        name: <input value={newName} onChange={handlePersonChange}/>
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={handleNumberChange}/>
-      </div>
-      <div>
-        <button type='submit'>add</button>
-      </div>
-    </form>
+    <Filter filter={filter} handleFilterChange={handleFilterChange}/>
 
-    <h2>Numbers</h2>
-    <div>
-      {personsToShow.map(person =>
-      <p key={person.name}>{person.name}: {person.number}</p>)}
-    </div>
+    <h3>Add a new contact</h3>
+
+    <PersonForm addPerson={addPerson} newName={newName} handlePersonChange={handlePersonChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
+
+    <h3>Numbers</h3>
+    
+    <Persons persons={persons} filter={filter}/>
   </div>
-  )
-}
+  );
+};
 
 export default App;
