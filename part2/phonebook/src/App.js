@@ -31,7 +31,7 @@ const App = () => {
   /**
    * Checks to see if a name is already in the persons array.
    * @param {string} _newName the potential new name to add to the array.
-   * @returns true if the name is already added, false otherwise
+   * @returns a person object if found, undefined if not found.
    */
   const checkIfAdded = (_newName) => {
     const added = persons.find((person) => {
@@ -39,32 +39,51 @@ const App = () => {
     });
 
     // If an index is found, then that means it has already been added to the array. Return true.
-    if (added !== undefined)
-    {
-      alert(`${_newName} is already added to phonebook`);
-      return true;
-    }
-    return false;
+    return added;
   }
 
   // Event Handlers
   const addPerson = (event) => {
     event.preventDefault();
+    
+    const checkPerson = checkIfAdded(newName);
 
-    // Check if the name is already in the array
-    // or if the name is empty.
-    if (checkIfAdded(newName) || newName.length === 0)
+    // Check if the name is already in the array.
+    if (checkPerson !== undefined)
     {
-      // If so, do not add it. Simply return.
+      const changeNumber = window.confirm(`${checkPerson.name} is already added to phonebook, replace the old number with a new one?`).valueOf();
+
+      // If the user wants to update the number...
+      if (changeNumber)
+      {
+        // Create a shallow copy of the original person object in the array.
+        // Update its number to the new number.
+        const copyCheckPerson = {...checkPerson, number: newNumber};
+        
+        // Make a HTTP PUT request to update the person.
+        personService
+        .update(copyCheckPerson.id, copyCheckPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(_person => {
+            if (_person.id === returnedPerson.id)
+            {
+              return copyCheckPerson;
+            }
+            return _person;
+          }));
+          setNewName('');
+          setNewNumber('');
+        });
+      }
       return;
     }
     
-    // If it is a valid new name, create a new person object and update the states.
+    // Create a new person to be added to the server.
     const newPerson = {
       name: newName,
       number: newNumber,
     };
-
+    
     // Make an HTTP POST request to save the new person to the server.
     personService
     .create(newPerson)
