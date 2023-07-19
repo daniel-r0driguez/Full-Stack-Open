@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import personService from './services/persons';
 
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
@@ -19,11 +18,11 @@ const App = () => {
   // Hook to fetch data from json server.
   const hook = () => {
     console.log('effect');
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('Data: ', response.data);
-      setPersons(response.data);
+    personService
+    .getAll()
+    .then( initialPersons => {
+      console.log('Data: ', initialPersons);
+      setPersons(initialPersons);
     });
   };
 
@@ -64,11 +63,16 @@ const App = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1
     };
-    setPersons(persons.concat(newPerson));
-    setNewName('');
-    setNewNumber('');
+
+    // Make an HTTP POST request to save the new person to the server.
+    personService
+    .create(newPerson)
+    .then(returnedPerson => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName('');
+      setNewNumber('');
+    });
   }
 
   const handlePersonChange = (event) => {
