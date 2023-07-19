@@ -87,6 +87,16 @@ const App = () => {
     setFilter(event.target.value);
   }
 
+  const handleDelete = (person) => {
+    const remove = window.confirm(`Delete "${person.name}"?`).valueOf();
+
+    if (remove)
+    {
+      personService.remove(person);
+      setPersons(persons.filter(_person => (_person.id !== person.id)));
+    }
+  }
+
   return (
   <div>
     <h2>Phonebook</h2>
@@ -99,7 +109,7 @@ const App = () => {
 
     <h3>Numbers</h3>
     
-    <Persons persons={persons} filter={filter}/>
+    <Persons persons={persons} filter={filter} handleDelete={handleDelete}/>
   </div>
   );
 };
