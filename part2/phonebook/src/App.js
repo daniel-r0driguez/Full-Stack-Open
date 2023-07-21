@@ -4,6 +4,7 @@ import personService from './services/persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 
 const App = () => {
   // Set the states.
@@ -15,6 +16,11 @@ const App = () => {
 
   const [filter, setFilter] = useState('');
 
+  const [message, setMessage] = useState(null);
+
+  const [success, setSuccess] = useState(true);
+
+
   // Hook to fetch data from json server.
   const hook = () => {
     console.log('effect');
@@ -23,11 +29,16 @@ const App = () => {
     .then( initialPersons => {
       console.log('Data: ', initialPersons);
       setPersons(initialPersons);
+    })
+    .catch(error => {
+      setNotification('An error occured. Cannot display list of contacts.', false);
     });
   };
 
   useEffect(hook, []);
 
+
+  // Helper functions.
   /**
    * Checks to see if a name is already in the persons array.
    * @param {string} _newName the potential new name to add to the array.
@@ -41,6 +52,20 @@ const App = () => {
     // If an index is found, then that means it has already been added to the array. Return true.
     return added;
   }
+
+  /**
+   * Sets the message and success of the notification state.
+   * @param {string} _message the message to display.
+   * @param {boolean} _success whether the notification is a successful one or not.
+   */
+  const setNotification = (_message, _success) => {
+    setMessage(_message);
+    setSuccess(_success);
+
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  };
 
   // Event Handlers
   const addPerson = (event) => {
@@ -71,9 +96,17 @@ const App = () => {
             }
             return _person;
           }));
-          setNewName('');
-          setNewNumber('');
+
+          setNotification(`Updated ${copyCheckPerson.name}.`, true);
+        })
+        .catch(error => {
+          setNotification(`${copyCheckPerson.name} does not exist in server.`, false);
+
+          setPersons(persons.filter(_person => (_person.id !== copyCheckPerson.id)));
         });
+
+        setNewName('');
+        setNewNumber('');
       }
       return;
     }
@@ -91,6 +124,11 @@ const App = () => {
       setPersons(persons.concat(returnedPerson));
       setNewName('');
       setNewNumber('');
+
+      setNotification(`Added ${returnedPerson.name}.`, true);
+    })
+    .catch(error => {
+      setNotification(`An error occured. Cannot add ${newPerson.name}.`, false);
     });
   }
 
@@ -111,7 +149,15 @@ const App = () => {
 
     if (remove)
     {
-      personService.remove(person);
+      personService
+      .remove(person)
+      .then(response => {
+        setNotification(`Deleted ${person.name}.`, true);
+      })
+      .catch(error => {
+        setNotification(`${person.name} was already removed from the server.`, false);
+      });
+
       setPersons(persons.filter(_person => (_person.id !== person.id)));
     }
   }
@@ -119,6 +165,8 @@ const App = () => {
   return (
   <div>
     <h2>Phonebook</h2>
+
+    <Notification message={message} success={success}/>
 
     <Filter filter={filter} handleFilterChange={handleFilterChange}/>
 
