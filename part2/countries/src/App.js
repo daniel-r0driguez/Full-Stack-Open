@@ -8,6 +8,7 @@ const App = () => {
   
   const [countries, setCountries] = useState([]);
   const [searchEntry, setSearchEntry] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
 
   // Hook to get initial list of all countries.
   const hook = () => {
