@@ -63,3 +63,26 @@
 // The structural units that make up the application's functional entities are React components.
 // A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place.
 // This is to create individual components that are as independent and reusable as possible.
+////////////////////////////////////////////////////
+// Couple of important remarks
+
+// At the end of this part there are a few more challenging exercises.
+// At this stage, you can skip the exercises if they are too much of a headache, we will come back to the same themes again later. The material is worth reading through in any case.
+
+// Let's try setting the initial state of the notes state to null instead of an empty array.
+// The app ends up breaking down.
+
+// It does so because even though the app is supposed to get the data from the server, the useEffect (hook) is only executed after the first render, meaning that the line:
+
+// notesToShow = notes
+// notesToShow.map(note => ...)
+
+// ...gets executed. Since notesToShow is null, .map is not a valid property to access.
+
+// Another thing to keep in mind is the second parameter of useEffet(), which specifies how often the effect is run.
+//  The principle is that the effect is always executed after the first render of the component and when the value of the second parameter changes.
+
+// If the second parameter is an empty array [], it's content never changes and the effect is only run after the first render of the component. This is exactly what we want when we are initializing the app state from the server.
+
+// However, there are situations where we want to perform the effect at other times, e.g. when the state of the component changes in a particular way.
+
