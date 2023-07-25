@@ -1,7 +1,9 @@
-const Country = ({countryName}) => {
+import Button from './Button';
+
+const Country = ({countryName, handleShowCountry}) => {
     return (
         <>
-            {countryName}<br/>
+            {countryName}<Button text='show' onClickHandler={() => handleShowCountry(countryName)}/><br/>
         </>
     );
 }

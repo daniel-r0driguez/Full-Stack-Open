@@ -25,12 +25,18 @@ const App = () => {
     setSearchEntry(event.target.value);
   }
 
+  // Button event handler that simply makes the search entry the desired country name.
+  // This in effect causes the country's details to be shown.
+  const showCountry = (countryName) => {
+    setSearchEntry(countryName);
+  }
+
   useEffect(hook, []);
 
   return (
     <div>
       <SearchBar searchEntry={searchEntry} handleSearchChange={handleSearchChange}/>
-      <Countries countries={countries} searchEntry={searchEntry}/>
+      <Countries countries={countries} searchEntry={searchEntry} handleShowCountry={showCountry}/>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import Country from "./Country";
 import DetailedCountry from "./DetailedCountry";
 
-const Countries = ({countries, searchEntry}) => {
+const Countries = ({countries, searchEntry, handleShowCountry}) => {
     const countriesToShow = countries.filter(country => country.name.common.search(new RegExp(searchEntry, "i")) !== -1);
 
     // No more than 10 countries can be displayed.
@@ -35,7 +35,7 @@ const Countries = ({countries, searchEntry}) => {
     // Default list of countries.
     return (
         <div>
-            {countriesToShow.map(country => <Country key={country.name.common} countryName={country.name.common}/>)}
+            {countriesToShow.map(country => <Country key={country.name.common} countryName={country.name.common} handleShowCountry={handleShowCountry}/>)}
         </div>
     );
 }
