@@ -205,8 +205,45 @@ notes/10    |   PATCH   | replaces a part of the identified resource with the re
 // What exactly is happening in that line of code? notes.map(n => n.id) creates a new array that contains all the ids of the notes.
 // Math.max returns the maximum value of the numbers that are passed to it.
 // However, notes.map(n => n.id) is an array so it can't directly be given as a parameter to Math.max. The array can be transformed into individual numbers by using the "three dot" spread syntax (...).
+////////////////////////////////////////////////////
+// About HTTP request types
 
+// The HTTP standard talks about two properties related to request types, safety and idempotency.
 
+// In particular, the convention has been established that the GET and HEAD methods SHOULD NOT have the significance of taking an action other than retrieval. These methods ought to be considered "safe".
+
+// Safety means that the executing request must not cause any side effects on the server. By side effects, we mean that the state of the database must not change as a result of the request, and the response must only return data that already exists on the server.
+
+// The HTTP standard also defines the request type HEAD, which ought to be safe. In practice, HEAD should work exactly like GET but it does not return anything but the status code and response headers. The response body will not be returned when you make a HEAD request.
+
+// Methods can also have the property of "idempotence" in that (aside from error or expiration issues) the side-effects of N > 0 identical requests is the same as for a single request. The methods GET, HEAD, PUT and DELETE share this property
+
+// This means that if a request does not generate side effects, then the result should be the same regardless of how many times the request is sent.
+
+// If we make an HTTP PUT request to the URL /api/notes/10 and with the request we send the data { content: "no side effects!", important: true }, the result is the same regardless of how many times the request is sent.
+
+// Like safety for the GET request, idempotence is also just a recommendation in the HTTP standard and not something that can be guaranteed simply based on the request type. However, when our API adheres to RESTful principles, then GET, HEAD, PUT, and DELETE requests are used in such a way that they are idempotent.
+
+// POST is the only HTTP request type that is neither safe nor idempotent. If we send 5 different HTTP POST requests to /api/notes with a body of {content: "many same", important: true}, the resulting 5 notes on the server will all have the same content.
+//////////////////////////////////////////////////
+// Middleware
+
+// The express json-parser we took into use earlier is a so-called middleware.
+
+// Middleware are functions that can be used for handling request and response objects.
+// The json-parser we used earlier takes the raw data from the requests that are stored in the request object, parses it into a JavaScript object and assigns it to the request object as a new property body.
+
+// In practice, you can use several middlewares at the same time. When you have more than one, they're executed one by one in the order that they were taken into use in express.
+// Let's implement our own middleware that prints information about every request that is sent to the server.
+
+// At the end of the function body, the next function that was passed as a parameter is called. The next function yields control to the next middleware.
+
+// You use middleware like this:
+// app.use(requestLogger)
+
+// Middleware functions are called in the order that they're taken into use with the express server object's use method. Notice that json-parser is taken into use before the requestLogger middleware, because otherwise request.body will not be initialized when the logger is executed!
+
+// Let's add the following middleware after our routes. This middleware will be used for catching requests made to non-existent routes. For these requests, the middleware will return an error message in the JSON format.
 
 
 
