@@ -68,3 +68,43 @@
 /////////////////////////////////////////////////////
 // The whole app to the internet
 
+// After ensuring that the production version of the application works locally, commit the production build of the frontend to the backend repository, and push the code to GitHub again.
+
+// If you are using Render a push to GitHub might be enough. If the automatic deployment does not work, select the "manual deploy" from the Render dashboard.
+
+// Our application saves the notes to a variable. If the application crashes or is restarted, all of the data will disappear.
+// A database will soon be introduced.
+////////////////////////////////////////////////////
+// Streamlining deploying of the frontend
+
+// To create a new production build of the frontend without extra manual work, let's add some npm-scripts to the package.json of the backend repository.
+
+// Render Tips
+// When you attempt to deploy your backend to Render, make sure you have a separate repository for the backend and deploy that github repo through Render, attempting to deploy through your Fullstackopen repository will often throw "ERR path ....package.json".
+
+// The script "npm run build:ui" builds the frontend and copies the production version under the backend repository. 
+// "npm run deploy:full" contains also the necessary git commands to update the backend repository.
+
+// This script pretty much redeploys the app without you having to manually do it every time.
+////////////////////////////////////////////////////
+// Proxy
+
+// Changes on the frontend have caused it to no longer work in development mode (when started with command npm start), as the connection to the backend does not work.
+
+// This is due to changing the backend address to a relative URL.
+
+// Because in development mode the frontend is at the address localhost:3000, the requests to the backend go to the wrong address localhost:3000/api/notes. The backend is at localhost:3001.
+
+// If the project was created with create-react-app, this problem is easy to solve. It is enough to add the following declaration to the package.json file of the frontend repository.
+
+// A negative aspect of our approach is how complicated it is to deploy the frontend. 
+// Deploying a new version requires generating a new production build of the frontend and copying it to the backend repository. 
+// This makes creating an automated deployment pipeline more difficult. 
+// Deployment pipeline means an automated and controlled way to move the code from the computer of the developer through different tests and quality checks to the production environment. 
+// Building a deployment pipeline is the topic of part 11 of this course.
+
+// There are multiple ways to achieve this (for example placing both backend and frontend code in the same repository ) but we will not go into those now.
+
+// In some situations, it may be sensible to deploy the frontend code as its own application. With apps created with create-react-app it is straightforward.
+
+
